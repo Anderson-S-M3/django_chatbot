@@ -7,8 +7,8 @@ chatbot = ChatBot(
     'CoronaBot',
     storage_adapter='chatterbot.storage.SQLStorageAdapter',
     logic_adapters=[
-        'chatterbot.logic.MathematicalEvaluation',
-        'chatterbot.logic.TimeLogicAdapter',
+        'chatterbot.logic.specific_response',
+        'chatterbot.logic.logic_adapter',
         'chatterbot.logic.BestMatch',
         {
             'import_path': 'chatterbot.logic.BestMatch',
@@ -20,8 +20,8 @@ chatbot = ChatBot(
 )
 
 # Training with Personal Ques & Ans 
-training_data_quesans = open('training_data/ques_ans.txt').read().splitlines()
-training_data_personal = open('training_data/personal_ques.txt').read().splitlines()
+training_data_quesans = "training_data.ques_ans.yml"
+training_data_personal = "training_data.personal_ques.yml"
 
 training_data = training_data_quesans + training_data_personal
 
