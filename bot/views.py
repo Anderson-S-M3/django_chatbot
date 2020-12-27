@@ -1,7 +1,9 @@
 from django.views.generic.base import TemplateView
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
-from django.http import HttpResponse
 from .chatbot import chatbot
+import json
+
 
 
 class BotIndex(TemplateView):
@@ -10,15 +12,40 @@ class BotIndex(TemplateView):
 
 class BotApiView(View):
 
-    def get(self, request):
-        userText = request.GET.get('msg')
+    """
+    Provide an API endpoint to interact with ChatterBot.
+    """
 
-        print(userText)
+    chatterbot = chatbot
 
-        resposta = chatbot.get_response(userText)
-        resposta = str(resposta)
+    def post(self, request, *args, **kwargs):
+        """
+        Return a response to the statement in the posted data.
+        * The JSON data should contain a 'text' attribute.
+        """
 
-        if 'The current time' in resposta:
-            return HttpResponse('Desculpe, ainda estou aprendendo sobre isso...')    
+        input_data = json.loads(request.body.decode('utf-8'))
+
+        if 'text' not in input_data:
+            return JsonResponse({
+                'text': [
+                    'Atributo Texto é obrigatorio.'
+                ]
+            }, status=400)
+
+        response = self.chatterbot.get_response(input_data)
+
+        response_data = response.serialize()
         
-        return HttpResponse(chatbot.get_response(userText))
+        print('.........')
+        print(response_data)
+        return HttpResponse(response)
+        return JsonResponse(response_data, status=200)
+
+    def get(self, request, *args, **kwargs):
+        """
+        Return data corresponding to the current conversation.
+        """
+        return JsonResponse({
+            'name': self.chatterbot.name
+        })
