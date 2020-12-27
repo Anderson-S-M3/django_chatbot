@@ -58,16 +58,22 @@ manage.py runserver
 
 <h2 id="demonstracao">:eyes: Código :eyes:</h2>
 
+<p align="center">index.html - Script</p>
+
 ```
-// index.html - Request Bot Response
+// Request Bot Response
 $.post("{% url 'chatterbot'%}", JSON.stringify({'text': rawText}), {csrfmiddlewaretoken:'{{csrf_token}}'}).done(function(data){
     console.log(rawText);
     console.log(data);
     const msgText = data;
     appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
 });
+```
 
-// chatbot.py - Get Bot Response
+<p align="center">chatbot.py - Bot Response  Script</p>
+
+```
+// Get Bot Response
 # Creating ChatBot Instance
 chatbot = ChatBot(
     name = 'Lee',
