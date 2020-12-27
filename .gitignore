@@ -1,3 +1,8 @@
+# ./
+botData.sqlite3
+botData.sqlite3-shm
+botData.sqlite3-wal
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
