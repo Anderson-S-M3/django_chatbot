@@ -1,38 +1,34 @@
+from chatterbot.trainers import ChatterBotCorpusTrainer, ListTrainer
+from chatterbot.response_selection import get_random_response
+from chatterbot.comparisons import levenshtein_distance
 from chatterbot.chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer ,ChatterBotCorpusTrainer
 
 
 # Creating ChatBot Instance
 chatbot = ChatBot(
-    'CoronaBot',
-    storage_adapter='chatterbot.storage.SQLStorageAdapter',
+    name = 'Lee',
+    storage_adapter = 'chatterbot.storage.SQLStorageAdapter',
+    response_selection_method = get_random_response,
+    statement_comparison_function = levenshtein_distance,
     logic_adapters=[
-        'chatterbot.logic.specific_response',
-        'chatterbot.logic.logic_adapter',
-        'chatterbot.logic.BestMatch',
         {
+            'import_path': 'chatterbot.logic.SpecificResponseAdapter',
+            'input_text': 'empty',
+            'output_text': ''
+        },
+        {   
             'import_path': 'chatterbot.logic.BestMatch',
-            'default_response': 'Desculpe, ainda estou aprendendo sobre isso...',
-            'maximum_similarity_threshold': 0.90
+            'default_response': 'Desculpa, Ainda estou aprendendo, qual a resposta ?',
+            'maximum_similarity_threshold': 0.9
         }
     ],
-    database_uri='sqlite:///database.sqlite3'
+    database="botData.sqlite3",
+    database_uri="sqlite:///botData.sqlite3"
 )
 
-# Training with Personal Ques & Ans 
-training_data_quesans = "training_data.ques_ans.yml"
-training_data_personal = "training_data.personal_ques.yml"
-
-training_data = training_data_quesans + training_data_personal
-
-trainer = ListTrainer(chatbot)
-trainer.train(training_data)
-
-
-
+# Treino baseado no corpus 
 trainer_corpus = ChatterBotCorpusTrainer(chatbot)
-
-# Treino baseado no corpus em Portugues 
 trainer_corpus.train(
-    "chatterbot.corpus.portuguese"
+    "chatterbot.corpus.portuguese",
+    "training_data",
 )
