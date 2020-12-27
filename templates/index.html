@@ -47,7 +47,23 @@
 
   <!-- partial -->
   <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js' charset="UTF-8"></script>
+  <script src="{% static 'js/js.cookie.js' %}"></script>
   <script charset="UTF-8">
+  
+  var csrftoken = Cookies.get('csrftoken');
+
+      function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+
+      $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+        }
+      });
 
     const msgerForm = get(".msger-inputarea");
     const msgerInput = get(".msger-input");
@@ -95,7 +111,7 @@
     function botResponse(rawText) {
 
       // Bot Response
-      $.get("{% url 'chatterbot' %}", { msg: rawText }).done(function (data) {
+      $.post("{% url 'chatterbot' %}", JSON.stringify({ 'text': rawText }), {csrfmiddlewaretoken: '{{ csrf_token }}'}).done(function (data) {
         console.log(rawText);
         console.log(data);
         const msgText = data;
