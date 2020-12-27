@@ -5,13 +5,11 @@ from .chatbot import chatbot
 import json
 
 
-
 class BotIndex(TemplateView):
     template_name = 'index.html'
 
 
 class BotApiView(View):
-
     """
     Provide an API endpoint to interact with ChatterBot.
     """
@@ -35,12 +33,8 @@ class BotApiView(View):
 
         response = self.chatterbot.get_response(input_data)
 
-        response_data = response.serialize()
-        
-        print('.........')
-        print(response_data)
         return HttpResponse(response)
-        return JsonResponse(response_data, status=200)
+
 
     def get(self, request, *args, **kwargs):
         """

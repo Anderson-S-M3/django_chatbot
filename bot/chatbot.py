@@ -1,4 +1,4 @@
-from chatterbot.trainers import ChatterBotCorpusTrainer, ListTrainer
+from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.response_selection import get_random_response
 from chatterbot.comparisons import levenshtein_distance
 from chatterbot.chatterbot import ChatBot
