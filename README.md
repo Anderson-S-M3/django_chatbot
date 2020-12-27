@@ -70,7 +70,7 @@ $.post("{% url 'chatterbot'%}", JSON.stringify({'text': rawText}), {csrfmiddlewa
 });
 ```
 
-<p align="center">chatbot.py - Bot Response  Script</p>
+<p align="center">chatbot.py - Bot Response</p>
 
 ```
 // Get Bot Response
