@@ -32,6 +32,13 @@ class BotApiView(View):
             }, status=400)
 
         response = self.chatterbot.get_response(input_data)
+        
+        #  Adicionar Frase Não encontrada ao txt
+        if str(response) == 'Desculpa, Ainda estou aprendendo, qual a resposta ?':
+            f = open("./training_data/semresposta.txt", 'a+', encoding='utf8')
+            descompactar = list(input_data.values())
+            f.write(f'{str(descompactar[0])} \n')
+            f.close() 
 
         return HttpResponse(response)
 

@@ -2,6 +2,8 @@
 botData.sqlite3
 botData.sqlite3-shm
 botData.sqlite3-wal
+README.md
+LICENSE
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
